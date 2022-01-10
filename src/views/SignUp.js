@@ -1,17 +1,17 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import AuthForm from '../components/AuthForm';
-import { signupUser } from '../services/users';
+import { signUpUser } from '../services/users';
 
-export default function SignUp() {
+export default function SignUp({ setCurrentUser }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const resp = await signupUser(email, password);
-      console.log(resp);
+      const resp = await signUpUser(email, password);
+      setCurrentUser(resp);
     } catch {
       setError('Try again');
     }
@@ -26,7 +26,6 @@ export default function SignUp() {
         password={password}
         setPassword={setPassword}
         error={error}
-        setError={setError}
         handleSubmit={handleSubmit}
       />
     </div>
