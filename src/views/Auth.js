@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { signInUser, signUpUser } from '../services/users';
 import AuthForm from '../components/AuthForm';
+import classNames from 'classnames';
+import './Auth.css';
 
 export default function Auth({ setCurrentUser }) {
   const [type, setType] = useState('signin');
@@ -19,19 +21,39 @@ export default function Auth({ setCurrentUser }) {
       }
       setCurrentUser(resp);
     } catch {
-      setError('Error');
+      setError('No user found with that email/password');
     }
   };
   return (
-    <div>
-      <AuthForm
-        error={error}
-        email={email}
-        setEmail={setEmail}
-        password={password}
-        setPassword={setPassword}
-        handleSubmit={handleSubmit}
-      />
-    </div>
+    <>
+      <div className="link">
+        <h1
+          onClick={() => {
+            setType('signin');
+          }}
+          className={classNames({ active: type === 'signin' })}
+        >
+          Sign In
+        </h1>
+        <h1
+          onClick={() => {
+            setType('signup');
+          }}
+          className={classNames({ active: type === 'signup' })}
+        >
+          Sign Up
+        </h1>
+      </div>
+      <div>
+        <AuthForm
+          error={error}
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          handleSubmit={handleSubmit}
+        />
+      </div>
+    </>
   );
 }
